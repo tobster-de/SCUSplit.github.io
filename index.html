@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargo-Aufteilung</title>
+</head>
+<body>
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: #fff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+            width: 90%;
+            align-items: center;
+            text-align: center;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        .container input,
+        .container select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #summe { white-space: pre-wrap; margin-top: 8px; font-weight: bold; font-size: large; }
+        #ergebnis { white-space: pre-wrap; margin-top: 4px; }
+    </style>
+
+    <main class="container" role="main">
+        <h1 style="margin:0 0 8px 0;">Cargo aufteilen</h1>
+
+        <label for="zahlInput">Anzahl SCUs</label>
+        <input type="number" id="zahlInput" placeholder="Anzahl SCUs" aria-label="Anzahl SCUs">
+
+        <label for="maxPotenz">Container-Größe</label>
+        <select id="maxPotenz" aria-label="Max. Container-Größe">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+        </select>
+
+        <button onclick="aufteilen()">Aufteilen</button>
+
+        <div id="summe" aria-live="polite"></div>
+        <div id="ergebnis" aria-live="polite"></div>
+    </main>
+
+    <script>
+        function aufteilen() {
+            const zahl = parseInt(document.getElementById('zahlInput').value);
+            const maxPotenz = parseInt(document.getElementById('maxPotenz').value);
+            if (isNaN(zahl) || zahl < 0 || isNaN(maxPotenz) || maxPotenz < 0) {
+                document.getElementById('ergebnis').innerText = 'Bitte geben Sie gültige positive Zahlen ein.';
+                return;
+            }
+            let rest = zahl;
+            let ergebnis = '';
+            let potenz = maxPotenz;
+            let teile = [];
+            while (rest > 0 && potenz >= 1) {
+                const anzahl = Math.floor(rest / potenz);
+                if (anzahl > 0) {
+                    teile.push(potenz + ' * ' + anzahl);
+
+                    const wert = anzahl * potenz;
+                    rest -= wert;
+                } else {
+                    //teile.push('0*' + wert);
+                }
+                potenz /= 2;
+            }
+
+            ergebnis += teile.join('\n');
+            if (rest > 0) {
+                ergebnis +='\n(Rest: ' + rest + ')';
+            }
+            document.getElementById('summe').innerText = zahl;
+            document.getElementById('ergebnis').innerText = ergebnis;
+        }
+    </script>
+</body>
+</html>
