@@ -40,7 +40,7 @@
         <label for="zahlInput">Anzahl SCUs</label>
         <input type="number" id="zahlInput" placeholder="Anzahl SCUs" aria-label="Anzahl SCUs">
 
-        <label for="maxPotenz">Container-Größe</label>
+        <label for="maxPotenz">Max. Container-Größe</label>
         <select id="maxPotenz" aria-label="Max. Container-Größe">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -50,13 +50,24 @@
             <option value="32">32</option>
         </select>
 
-        <button onclick="aufteilen()">Aufteilen</button>
+        <button id="splitButton" onclick="aufteilen()">Aufteilen</button>
 
         <div id="summe" aria-live="polite"></div>
         <div id="ergebnis" aria-live="polite"></div>
     </main>
 
     <script>
+        const zahlInput = document.getElementById('zahlInput');
+        const splitButton = document.getElementById('splitButton');
+        if (zahlInput) {
+            zahlInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { 
+                    e.preventDefault(); 
+                    splitButton.click(); 
+                }
+            });
+        }
+
         function aufteilen() {
             const zahl = parseInt(document.getElementById('zahlInput').value);
             const maxPotenz = parseInt(document.getElementById('maxPotenz').value);
