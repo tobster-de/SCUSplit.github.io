@@ -3,37 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Cargo-Aufteilung</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <style>
-        html, body { height: 100%; margin: 0; }
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            background: #fff;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 400px;
-            width: 90%;
-            align-items: center;
-            text-align: center;
-            padding: 16px;
-            box-sizing: border-box;
-        }
-        .container input,
-        .container select {
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #summe { white-space: pre-wrap; margin-top: 8px; font-weight: bold; font-size: large; }
-        #ergebnis { white-space: pre-wrap; margin-top: 4px; }
-    </style>
-
     <main class="container" role="main">
         <h1 style="margin:0 0 8px 0;">Cargo aufteilen</h1>
 
@@ -56,49 +28,6 @@
         <div id="ergebnis" aria-live="polite"></div>
     </main>
 
-    <script>
-        const zahlInput = document.getElementById('zahlInput');
-        const splitButton = document.getElementById('splitButton');
-        if (zahlInput) {
-            zahlInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') { 
-                    e.preventDefault(); 
-                    splitButton.click(); 
-                }
-            });
-        }
-
-        function aufteilen() {
-            const zahl = parseInt(document.getElementById('zahlInput').value);
-            const maxPotenz = parseInt(document.getElementById('maxPotenz').value);
-            if (isNaN(zahl) || zahl < 0 || isNaN(maxPotenz) || maxPotenz < 0) {
-                document.getElementById('ergebnis').innerText = 'Bitte geben Sie gültige positive Zahlen ein.';
-                return;
-            }
-            let rest = zahl;
-            let ergebnis = '';
-            let potenz = maxPotenz;
-            let teile = [];
-            while (rest > 0 && potenz >= 1) {
-                const anzahl = Math.floor(rest / potenz);
-                if (anzahl > 0) {
-                    teile.push(potenz + ' * ' + anzahl);
-
-                    const wert = anzahl * potenz;
-                    rest -= wert;
-                } else {
-                    //teile.push('0*' + wert);
-                }
-                potenz /= 2;
-            }
-
-            ergebnis += teile.join('\n');
-            if (rest > 0) {
-                ergebnis +='\n(Rest: ' + rest + ')';
-            }
-            document.getElementById('summe').innerText = zahl;
-            document.getElementById('ergebnis').innerText = ergebnis;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
