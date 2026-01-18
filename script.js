@@ -14,6 +14,8 @@ function aufteilen() {
     const maxPotenz = parseInt(document.getElementById('maxPotenz').value);
     if (isNaN(zahl) || zahl < 0 || isNaN(maxPotenz) || maxPotenz < 0) {
         document.getElementById('ergebnis').innerText = 'Bitte geben Sie gültige positive Zahlen ein.';
+        document.getElementById('ergebnis').style.display = 'block';
+        document.getElementById('summe').style.display = 'none';
         return;
     }
     let rest = zahl;
@@ -38,5 +40,7 @@ function aufteilen() {
         ergebnis +='\n(Rest: ' + rest + ')';
     }
     document.getElementById('summe').innerText = zahl;
+    document.getElementById('summe').style.display = 'block';
     document.getElementById('ergebnis').innerText = ergebnis;
+    document.getElementById('ergebnis').style.display = 'block';
 }
